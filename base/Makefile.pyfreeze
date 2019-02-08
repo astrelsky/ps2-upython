@@ -1,0 +1,29 @@
+EE_BIN = frozen.elf
+EE_OBJS = _frozen_mpy.o
+EE_C = _frozen_mpy.c
+EE_INCS = -I$(PS2SDK)/ports/include/micropython
+EE_CFLAGS = -L$(PS2SDK)/ports/lib
+EE_LIBS = -lmicropython -lahx
+
+TEST_BIN = firmware.elf
+TEST_OBJS = build/_frozen_mpy.o
+
+PY_BYTECODE = main.mpy
+
+all: $(EE_C) $(EE_BIN)
+
+test: build/_frozen_mpy.c $(TEST_OBJS) $(PS2SDK)/ee/startup/crt0.o
+	$(EE_CC) $(EE_NO_CRT) -T$(PS2SDK)/ee/startup/linkfile $(EE_CFLAGS) \
+		-o $(TEST_BIN) $(PS2SDK)/ee/startup/crt0.o $(CRTI_OBJ) $(CRTBEGIN_OBJ) $(TEST_OBJS) $(CRTEND_OBJ) $(CRTN_OBJ) $(EE_LDFLAGS) $(EE_LIBS)
+
+clean:
+	rm -f *.o *.elf
+	
+$(EE_C): $(PY_BYTECODE) $(PS2SDK)/ports/include/micropython/genhdr/qstrdefs.generated.h
+	python mpy-tool.py -f -q $(PS2SDK)/ports/include/micropython/genhdr/qstrdefs.preprocessed.h -mlongint-impl=none $< > $@
+
+build/_frozen_mpy.c: frozentest.mpy build/genhdr/qstrdefs.generated.h
+	../../tools/mpy-tool.py -f -q build/genhdr/qstrdefs.preprocessed.h -mlongint-impl=none $< > $@
+
+include $(PS2SDK)/samples/Makefile.pref
+include $(PS2SDK)/samples/Makefile.eeglobal

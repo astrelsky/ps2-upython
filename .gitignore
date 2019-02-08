@@ -1,0 +1,16 @@
+# Binary Files
+*.o
+*.a
+*.elf
+*.exe
+
+# Build folder
+build/
+
+# Python cache files and binaries
+__pycache__/
+*.pyc
+*.pyd
+
+# vscode folder/
+.vscode

@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# Make no assumptions, check anyway
+if test ! $PS2DEV; then { echo "ERROR: Set \$PS2DEV before continuing."; exit 1; } fi
+
+ ## Check if $PS2SDK is set.
+if test ! $PS2SDK; then { echo "ERROR: Set \$PS2SDK before continuing."; exit 1; } fi
+
+if [ "$1" == "" ] || [ ! -f $1 ]; then { echo "ps2-upython INPUT_PYTHON_SCRIPT [OUTPUT ELF FILE]"; exit 1; } fi
+
+if [ ! -f $PS2DEV/share/micropython/Makefile ]; then { echo "ps2 micropython is not properly installed"; exit 1; } fi
+
+## Determine GNU Make command.
+if command -v gmake >/dev/null; then
+	GNUMAKE=gmake
+else
+	GNUMAKE=make
+fi
+
+CWD=`pwd`
+
+mpy-cross $1
+mv `basename -s .py $1`.mpy $PS2DEV/share/micropython/main.mpy
+cd $PS2DEV/share/micropython
+$GNUMAKE > /dev/null
+if [ "$2" == "" ]; then
+	mv frozen.elf $CWD/`basename -s .py $1`.elf
+else
+	mv frozen.elf $CWD/$2
+fi
+$GNUMAKE clean > /dev/null
+rm -f main.mpy
