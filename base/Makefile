@@ -1,7 +1,13 @@
+BUILD_VERBOSE ?= 1
+DEBUG		  ?= 1
+ROOT = ..
+MODULE_ROOT = $(ROOT)/modules
+MODULE_SDK = $(MODULE_ROOT)/ps2sdk
 include ../micropython/py/mkenv.mk
 
 # qstr definitions (must come before including py.mk)
 QSTR_DEFS = qstrdefsport.h
+QSTR_GLOBAL_DEPENDENCIES += mpconfigport.h
 
 # include py core make definitions
 include $(TOP)/py/py.mk
@@ -14,9 +20,11 @@ EE_AR = ee-ar
 INC += -I.
 INC += -I$(TOP)
 INC += -I$(BUILD)
+INC += -I$(BUILD)/genhdr
+INC += -I$(MODULE_SDK)/include
 
 EE_BIN = $(BUILD)/firmware.elf
-EE_LIB = libmicropython.a
+EE_LIB = $(LIBMICROPYTHON)
 CFLAGS = $(INC) $(EE_INCS) -Wall -std=c99 $(EE_CFLAGS) $(EE_NO_CRT) $(COPT)
 LDFLAGS = $(EE_LDFLAGS) -T$(PS2SDK)/ee/startup/linkfile --gc-sections
 
@@ -24,7 +32,6 @@ LDFLAGS = $(EE_LDFLAGS) -T$(PS2SDK)/ee/startup/linkfile --gc-sections
 ifeq ($(DEBUG), 1)
 CFLAGS += -D__DEBUG
 else
-CFLAGS += -DNDEBUG
 CFLAGS += -fdata-sections -ffunction-sections
 endif
 
@@ -33,31 +40,35 @@ LIBS = -lc -lkernel -lahx
 SRC_C = \
 	main.c \
 	uart_core.c \
-	lib/utils/printf.c \
 	lib/utils/stdout_helpers.c \
 	lib/utils/pyexec.c \
-	lib/libc/string0.c \
 	lib/mp-readline/readline.c
 
+MODULE_C = \
+	$(MODULE_SDK)/src/rpc/ahx.c \
+	$(MODULE_SDK)/src/rpc/rpc.c
+
 OBJ = $(PY_CORE_O) $(addprefix $(BUILD)/, $(SRC_C:.c=.o))
+OBJ += $(addprefix $(BUILD)/, $(MODULE_C:.c=.o))
 
 PY_BYTECODE = frozentest.mpy
 PY_SCRIPT = frozentest.py
 
-all: $(EE_LIB)
+all: $(LIB)
 
 remake: clean all
 
 fullclean: clean
 	rm -f *.mpy *.a *.elf
+	rm -rf modules
 
 test: install $(PY_BYTECODE)
 	$(MAKE) -f Makefile.pyfreeze test
 
 retest: fullclean test
 	
-install: $(EE_LIB)
-	cp -f $< $(PS2SDK)/ports/lib
+install: lib
+	cp -f $(EE_LIB) $(PS2SDK)/ports/lib
 	mkdir -p $(PS2SDK)/ports/include/micropython
 	mkdir -p $(PS2SDK)/ports/include/micropython/genhdr
 	cp -f $(BUILD)/genhdr/qstrdefs.preprocessed.h $(PS2SDK)/ports/include/micropython/genhdr
@@ -73,9 +84,6 @@ install: $(EE_LIB)
 
 $(PY_BYTECODE): $(PY_SCRIPT)
 	mpy-cross $<
-	
-$(EE_LIB): $(OBJ)
-	$(EE_AR) cru $(EE_LIB) $(OBJ)
 
 #$(BUILD)/_frozen_mpy.c: $(PY_BYTECODE) $(BUILD)/genhdr/qstrdefs.generated.h
 #	$(ECHO) "MISC freezing bytecode"
