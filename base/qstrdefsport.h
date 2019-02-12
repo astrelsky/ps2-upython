@@ -1,13 +1,10 @@
-// qstrs specific to this port
+// AHX Class
 Q(AHX)
-Q(LoadSong)
-Q(SubSong)
+Q(Boost)
 Q(SubSongs)
 Q(Volume)
-Q(Boost)
+Q(Pause)
+Q(Play)
+Q(SubSong)
 Q(ToggleOversampling)
 Q(__del__)
-Q(Play)
-Q(Pause)
-
-Q(audsrv)

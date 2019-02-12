@@ -30,20 +30,19 @@
 #ifndef __CLASS_AXH_RPC_H__
 #define __CLASS_AXH_RPC_H__
 
-// this is the actual C-structure for our new object
 typedef struct _ahx_rpc_obj_t {
-    // base represents some basic information, like type
+    
+    // Type Information
     mp_obj_base_t base;
-    // a member created by us
+
+    // AHX Attributes
+    mp_obj_t boost;
     mp_obj_t subSongs;
     mp_obj_t volume;
-    mp_obj_t boost;
 
 } ahx_rpc_obj_t;
 
 const mp_obj_type_t ahx_rpc_obj;
-
-STATIC const mp_obj_type_t SubSongs_property_obj;
 
 mp_obj_t __init__( const mp_obj_type_t *type,
                                   size_t n_args,
@@ -51,6 +50,12 @@ mp_obj_t __init__( const mp_obj_type_t *type,
                                   const mp_obj_t *args );
 
 STATIC void ahx_rpc_property_attr(mp_obj_t self_in, qstr attr, mp_obj_t *dest);
+
+mp_obj_t Pause(void);
+STATIC MP_DEFINE_CONST_FUN_OBJ_0(Pause_obj, Pause);
+
+mp_obj_t Play(void);
+STATIC MP_DEFINE_CONST_FUN_OBJ_0(Play_obj, Play);
 
 mp_obj_t SubSong(mp_obj_t self_in, mp_obj_t songNo);
 STATIC MP_DEFINE_CONST_FUN_OBJ_2(SubSong_obj, SubSong);
@@ -60,11 +65,5 @@ STATIC MP_DEFINE_CONST_FUN_OBJ_0(ToggleOversampling_obj, ToggleOversampling);
 
 mp_obj_t __del__(void);
 STATIC MP_DEFINE_CONST_FUN_OBJ_0(__del___obj, __del__);
-
-mp_obj_t Play(void);
-STATIC MP_DEFINE_CONST_FUN_OBJ_0(Play_obj, Play);
-
-mp_obj_t Pause(void);
-STATIC MP_DEFINE_CONST_FUN_OBJ_0(Pause_obj, Pause);
 
 #endif // __CLASS_AXH_RPC_H__

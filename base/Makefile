@@ -15,8 +15,6 @@ include $(TOP)/py/py.mk
 CROSS_COMPILE = ee-
 include $(PS2SDK)/samples/Makefile.eeglobal
 
-EE_AR = ee-ar
-
 INC += -I.
 INC += -I$(TOP)
 INC += -I$(BUILD)
