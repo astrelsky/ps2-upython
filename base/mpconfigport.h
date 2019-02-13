@@ -66,7 +66,7 @@
 #define MICROPY_PY_THREAD_GIL       (0) // Set to 1 when implementated
 #define MICROPY_PY_MATH             (1)
 #define MICROPY_PY_CMATH            (1)
-#define MICROPY_PY_IO               (0)
+#define MICROPY_PY_IO               (1)
 
 #define MICROPY_PY_BUILTINS_HELP (1)
 #define MICROPY_PY_BUILTINS_HELP_MODULES (1)

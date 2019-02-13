@@ -29,10 +29,13 @@
 #include "py/objstringio.h"
 #include "py/runtime.h"
 #include "py/binary.h"
+#include "py/qstr.h"
+
 #include "rpc/ahx.h"
+#include "utils.h"
 
 #include <ahx_rpc.h>
-#include <string.h>
+#include <stdio.h>
 
 // creating the table of global members
 STATIC const mp_rom_map_elem_t ahx_rpc_locals_dict_table[] = {
@@ -43,9 +46,9 @@ STATIC const mp_rom_map_elem_t ahx_rpc_locals_dict_table[] = {
     { MP_ROM_QSTR(MP_QSTR_Play), (mp_obj_t)&Play_obj },
     { MP_ROM_QSTR(MP_QSTR_SubSong), (mp_obj_t)&SubSong_obj },
     { MP_ROM_QSTR(MP_QSTR_ToggleOversampling), (mp_obj_t)&ToggleOversampling_obj },
-    { MP_ROM_QSTR(MP_QSTR___del__), (mp_obj_t)&__del___obj },
-    { MP_ROM_QSTR(MP_QSTR___enter__), (mp_obj_t)&__init__ },
-    { MP_ROM_QSTR(MP_QSTR___exit__), (mp_obj_t)&__del___obj }
+    { MP_ROM_QSTR(MP_QSTR___del__), (mp_obj_t)&ahx__del___obj },
+    { MP_ROM_QSTR(MP_QSTR___enter__), (mp_obj_t)&ahx__init__ },
+    { MP_ROM_QSTR(MP_QSTR___exit__), (mp_obj_t)&ahx__del___obj }
 };
 
 STATIC MP_DEFINE_CONST_DICT(ahx_rpc_locals_dict,
@@ -58,14 +61,14 @@ const mp_obj_type_t ahx_rpc_obj = {
      // give it a name
     .name = MP_QSTR_AHX,
      // give it a constructor
-    .make_new = __init__,
+    .make_new = ahx__init__,
      // give it some properties
     .attr = ahx_rpc_property_attr,
      // and the global members
     .locals_dict = (mp_obj_dict_t*)&ahx_rpc_locals_dict,
 };
 
-mp_obj_t __init__( const mp_obj_type_t *type,
+mp_obj_t ahx__init__( const mp_obj_type_t *type,
                                   size_t n_args,
                                   size_t n_kw,
                                   const mp_obj_t *args ) {
@@ -94,7 +97,7 @@ mp_obj_t __init__( const mp_obj_type_t *type,
     return MP_OBJ_FROM_PTR(self);
 }
 
-STATIC void ahx_rpc_property_attr(mp_obj_t self_in, qstr attr, mp_obj_t *dest) {
+void ahx_rpc_property_attr(mp_obj_t self_in, qstr attr, mp_obj_t *dest) {
     if (dest[0] == MP_OBJ_NULL) {
         // load attribute
         ahx_rpc_obj_t *self = MP_OBJ_TO_PTR(self_in);
@@ -120,12 +123,13 @@ STATIC void ahx_rpc_property_attr(mp_obj_t self_in, qstr attr, mp_obj_t *dest) {
         int error;
         switch(attr) {
             case(MP_QSTR_Boost):
+                INT_TYPE_CHECK("Boost", dest[1]);
                 self->boost = dest[1];
                 error = AHX_SetBoost(mp_obj_get_int(dest[1]));
                 dest[0] = MP_OBJ_NULL;
                 break;
             case(MP_QSTR_Volume):
-                self->volume = dest[1];
+                INT_TYPE_CHECK("Volume", dest[1]);
                 error = AHX_SetVolume(mp_obj_get_int(dest[1]));
                 // Acknowlege Attribute Found
                 dest[0] = MP_OBJ_NULL;
@@ -156,7 +160,7 @@ mp_obj_t ToggleOversampling(void) {
     return mp_const_none;
 }
 
-mp_obj_t __del__(void) {
+mp_obj_t ahx__del__(void) {
     AHX_Quit();
     return mp_const_none;
 }

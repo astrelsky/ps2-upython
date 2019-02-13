@@ -23,7 +23,7 @@ INC += -I$(MODULE_SDK)/include
 
 EE_BIN = $(BUILD)/firmware.elf
 EE_LIB = $(LIBMICROPYTHON)
-CFLAGS = $(INC) $(EE_INCS) -Wall -std=c99 $(EE_CFLAGS) $(EE_NO_CRT) $(COPT)
+CFLAGS = $(INC) $(EE_INCS) -Wall -Werror -std=c99 $(EE_CFLAGS) $(EE_NO_CRT) $(COPT)
 LDFLAGS = $(EE_LDFLAGS) -T$(PS2SDK)/ee/startup/linkfile --gc-sections
 
 # Tune for Debugging or Optimization
@@ -33,7 +33,7 @@ else
 CFLAGS += -fdata-sections -ffunction-sections
 endif
 
-LIBS = -lc -lkernel -lahx
+LIBS = -lc -lkernel -lahx -laudsrv
 
 SRC_C = \
 	main.c \
@@ -44,6 +44,7 @@ SRC_C = \
 
 MODULE_C = \
 	$(MODULE_SDK)/src/rpc/ahx.c \
+	$(MODULE_SDK)/src/rpc/audsrv.c \
 	$(MODULE_SDK)/src/rpc/rpc.c
 
 OBJ = $(PY_CORE_O) $(addprefix $(BUILD)/, $(SRC_C:.c=.o))

@@ -3,7 +3,7 @@ EE_OBJS = _frozen_mpy.o
 EE_C = _frozen_mpy.c
 EE_INCS = -I$(PS2SDK)/ports/include/micropython
 EE_CFLAGS = -L$(PS2SDK)/ports/lib -D__DEBUG
-EE_LIBS = -lmicropython -lahx
+EE_LIBS = -lmicropython -lahx -laudsrv
 
 TEST_BIN = firmware.elf
 TEST_OBJS = build/_frozen_mpy.o

@@ -27,11 +27,14 @@
 #include "py/obj.h"
 #include "py/runtime.h"
 #include "py/binary.h"
+
 #include "rpc/ahx.h"
+#include "rpc/audsrv.h"
 
 STATIC const mp_map_elem_t rpc_globals_table[] = {
     { MP_OBJ_NEW_QSTR(MP_QSTR___name__), MP_OBJ_NEW_QSTR(MP_QSTR_rpc) },
     { MP_OBJ_NEW_QSTR(MP_QSTR_AHX), (mp_obj_t)&ahx_rpc_obj },
+    { MP_OBJ_NEW_QSTR(MP_QSTR_audsrv), (mp_obj_t)&audsrv_rpc_obj },
 };
 
 STATIC MP_DEFINE_CONST_DICT (

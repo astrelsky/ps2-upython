@@ -44,12 +44,12 @@ typedef struct _ahx_rpc_obj_t {
 
 const mp_obj_type_t ahx_rpc_obj;
 
-mp_obj_t __init__( const mp_obj_type_t *type,
+mp_obj_t ahx__init__( const mp_obj_type_t *type,
                                   size_t n_args,
                                   size_t n_kw,
                                   const mp_obj_t *args );
 
-STATIC void ahx_rpc_property_attr(mp_obj_t self_in, qstr attr, mp_obj_t *dest);
+void ahx_rpc_property_attr(mp_obj_t self_in, qstr attr, mp_obj_t *dest);
 
 mp_obj_t Pause(void);
 STATIC MP_DEFINE_CONST_FUN_OBJ_0(Pause_obj, Pause);
@@ -63,7 +63,7 @@ STATIC MP_DEFINE_CONST_FUN_OBJ_2(SubSong_obj, SubSong);
 mp_obj_t ToggleOversampling(void);
 STATIC MP_DEFINE_CONST_FUN_OBJ_0(ToggleOversampling_obj, ToggleOversampling);
 
-mp_obj_t __del__(void);
-STATIC MP_DEFINE_CONST_FUN_OBJ_0(__del___obj, __del__);
+mp_obj_t ahx__del__(void);
+STATIC MP_DEFINE_CONST_FUN_OBJ_0(ahx__del___obj, ahx__del__);
 
 #endif // __CLASS_AXH_RPC_H__
