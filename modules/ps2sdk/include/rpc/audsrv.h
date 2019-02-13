@@ -32,9 +32,6 @@
 
 #include <audsrv.h>
 
-// This really shouldn't be static
-extern mp_obj_t fun_bc_call(mp_obj_t self_in, size_t n_args, size_t n_kw, const mp_obj_t *args);
-
 #define ERROR_CHECK() ({\
     if (audsrv_get_error())\
         mp_raise_msg(&mp_type_Exception, audsrv_get_error_string());\
