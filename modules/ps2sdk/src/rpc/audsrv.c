@@ -566,7 +566,7 @@ mp_obj_t WaitAudio(mp_obj_t self_in, mp_obj_t bytes) {
 }
 
 mp_obj_t audsrv__del__(mp_obj_t self_in) {
-    if(audsrv_quit());
+    if(audsrv_quit())
         mp_raise_msg(&mp_type_Exception, "audsrv failed to shutdown\n");
     return mp_const_none;
 }

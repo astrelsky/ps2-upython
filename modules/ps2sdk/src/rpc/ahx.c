@@ -126,11 +126,15 @@ void ahx_rpc_property_attr(mp_obj_t self_in, qstr attr, mp_obj_t *dest) {
                 INT_TYPE_CHECK("Boost", dest[1]);
                 self->boost = dest[1];
                 error = AHX_SetBoost(mp_obj_get_int(dest[1]));
+                if(error)
+                    mp_raise_msg(&mp_type_Exception, "Failed to set Boost\n");
                 dest[0] = MP_OBJ_NULL;
                 break;
             case(MP_QSTR_Volume):
                 INT_TYPE_CHECK("Volume", dest[1]);
                 error = AHX_SetVolume(mp_obj_get_int(dest[1]));
+                if(error)
+                    mp_raise_msg(&mp_type_Exception, "Failed to set volume\n");
                 // Acknowlege Attribute Found
                 dest[0] = MP_OBJ_NULL;
                 break;

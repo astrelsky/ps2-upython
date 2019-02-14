@@ -29,6 +29,7 @@
 #include "py/runtime.h"
 
 #include <string.h>
+#include <stdio.h>
 
 // Hiding the warnings since they are being used in macros
 
@@ -43,30 +44,51 @@ STATIC __attribute__ ((unused)) const char *OBJECT_STRING = " object\n";
 
 
 #define CUSTOM_TYPE_CHECK(name, value, type_name, type_address) ({\
-    if(!mp_obj_is_type(value, type_address))\
-        mp_raise_TypeError(strcat(\
-            strcat(name, CUSTOM_TYPE_ERROR_MSG),\
-            strcat(type_name, OBJECT_STRING)));\
+    if(!mp_obj_is_type(value, type_address)) {\
+        char *error = malloc(strlen(name)+strlen(CUSTOM_TYPE_ERROR_MSG)\
+                             +strlen(type_name)+strlen(OBJECT_STRING));\
+        strcat(error, name);\
+        strcat(error, INT_TYPE_ERROR_MSG);\
+        strcat(error, CUSTOM_TYPE_ERROR_MSG);\
+        strcat(error, OBJECT_STRING);\
+        mp_raise_TypeError(error);\
+    }\
 })
 
 #define FUNCTION_TYPE_CHECK(name, value) ({\
-    if(!mp_obj_is_fun(value))\
-        mp_raise_TypeError(strcat(name, FUNCTION_TYPE_ERROR_MSG));\
+    if(!mp_obj_is_fun(value)){\
+        char *error = malloc(strlen(name)+strlen(FUNCTION_TYPE_ERROR_MSG));\
+        strcat(error, name);\
+        strcat(error, FUNCTION_TYPE_ERROR_MSG);\
+        mp_raise_TypeError(error);\
+    }\
 })
 
 #define INT_TYPE_CHECK(name, value) ({\
-    if(!mp_obj_is_int(value))\
-        mp_raise_TypeError(strcat(name, INT_TYPE_ERROR_MSG));\
+    if(!mp_obj_is_int(value)) {\
+        char *error = malloc(strlen(name)+strlen(INT_TYPE_ERROR_MSG));\
+        strcat(error, name);\
+        strcat(error, INT_TYPE_ERROR_MSG);\
+        mp_raise_TypeError(error);\
+    }\
 })
 
 #define IO_TYPE_CHECK(name, value) ({\
-    if(!mp_obj_is_type(value, &mp_type_bytesio) && !mp_obj_is_type(value, &mp_type_stringio))\
-        mp_raise_TypeError(strcat(name, IO_TYPE_ERROR_MSG));\
+    if(!mp_obj_is_type(value, &mp_type_bytesio) && !mp_obj_is_type(value, &mp_type_stringio)) {\
+        char *error = malloc(strlen(name)+strlen(IO_TYPE_ERROR_MSG));\
+        strcat(error, name);\
+        strcat(error, IO_TYPE_ERROR_MSG);\
+        mp_raise_TypeError(error);\
+    }\
 })
 
 #define LIST_TYPE_CHECK(name, value) ({\
-    if(!mp_obj_is_type(value, &mp_type_list))\
-        mp_raise_TypeError(strcat(name, LIST_TYPE_ERROR_MSG));\
+    if(!mp_obj_is_type(value, &mp_type_list)) {\
+        char *error = malloc(strlen(name)+strlen(LIST_TYPE_ERROR_MSG));\
+        strcat(error, name);\
+        strcat(error, LIST_TYPE_ERROR_MSG);\
+        mp_raise_TypeError(error);\
+    }\
 })
 
 #endif // __UTILS_H__
