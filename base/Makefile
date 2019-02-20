@@ -12,7 +12,7 @@ QSTR_GLOBAL_DEPENDENCIES += mpconfigport.h
 # include py core make definitions
 include $(TOP)/py/py.mk
 
-CROSS_COMPILE = ee-
+CROSS_COMPILE = mips64r5900el-ps2-elf-
 include $(PS2SDK)/samples/Makefile.eeglobal
 
 INC += -I.
@@ -23,7 +23,7 @@ INC += -I$(MODULE_SDK)/include
 
 EE_BIN = $(BUILD)/firmware.elf
 EE_LIB = $(LIBMICROPYTHON)
-CFLAGS = $(INC) $(EE_INCS) -Wall -Werror -std=c99 $(EE_CFLAGS) $(EE_NO_CRT) $(COPT)
+CFLAGS = $(INC) $(EE_INCS) -Werror -std=c99 $(EE_CFLAGS) $(EE_NO_CRT) $(COPT)
 LDFLAGS = $(EE_LDFLAGS) -T$(PS2SDK)/ee/startup/linkfile --gc-sections
 
 # Tune for Debugging or Optimization
@@ -33,14 +33,15 @@ else
 CFLAGS += -fdata-sections -ffunction-sections
 endif
 
-LIBS = -lc -lkernel -lahx -laudsrv
-
 SRC_C = \
 	main.c \
 	uart_core.c \
 	lib/utils/stdout_helpers.c \
 	lib/utils/pyexec.c \
-	lib/mp-readline/readline.c
+	lib/mp-readline/readline.c \
+	extmod/modujson.c \
+	extmod/modure.c \
+	extmod/moductypes.c
 
 MODULE_C = \
 	$(MODULE_SDK)/src/rpc/ahx.c \

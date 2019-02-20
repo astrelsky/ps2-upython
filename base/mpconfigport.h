@@ -8,7 +8,7 @@
 // You can disable the built-in MicroPython compiler by setting the following
 // config option to 0.  If you do this then you won't get a REPL prompt, but you
 // will still be able to execute pre-compiled scripts, compiled with mpy-cross.
-#define MICROPY_ENABLE_COMPILER     (0)
+#define MICROPY_ENABLE_COMPILER     (1)
 #define MP_ENDIANNESS_LITTLE        (1)
 
 #define MICROPY_QSTR_BYTES_IN_HASH  (1)
@@ -58,15 +58,21 @@
 #define MICROPY_PY_SYS              (1)
 #define MICROPY_MODULE_FROZEN_MPY   (1)
 #define MICROPY_CPYTHON_COMPAT      (1)
-#define MICROPY_LONGINT_IMPL        (MICROPY_LONGINT_IMPL_NONE) // FIX ME!
-#define MICROPY_FLOAT_IMPL          (MICROPY_FLOAT_IMPL_NONE) // FIX ME!
+#define MICROPY_LONGINT_IMPL        (MICROPY_LONGINT_IMPL_MPZ)
+#define MICROPY_FLOAT_IMPL          (MICROPY_FLOAT_IMPL_FLOAT)
 
 // To be replace with ps2sdk implementations
-#define MICROPY_PY_THREAD           (0)
-#define MICROPY_PY_THREAD_GIL       (0) // Set to 1 when implementated
-#define MICROPY_PY_MATH             (1)
-#define MICROPY_PY_CMATH            (1)
-#define MICROPY_PY_IO               (1)
+#define MICROPY_PY_THREAD                   (0)
+#define MICROPY_PY_THREAD_GIL               (0) // Set to 1 when implementated
+#define MICROPY_PY_MATH                     (1)
+#define MICROPY_PY_CMATH                    (1)
+#define MICROPY_PY_MATH_SPECIAL_FUNCTIONS   (1)
+#define MICROPY_PY_IO_RESOURCE_STREAM       (0)
+#define MICROPY_PY_IO_IOBASE                (1)
+#define MICROPY_PY_IO_BUFFEREDWRITER        (1)
+#define MICROPY_PY_IO                       (1)
+#define MICROPY_PY_IO_FILEIO                (0)
+#define MICROPY_MODULE_FROZEN_STR           (0)
 
 #define MICROPY_PY_BUILTINS_HELP (1)
 #define MICROPY_PY_BUILTINS_HELP_MODULES (1)
@@ -81,11 +87,12 @@
 #define MICROPY_PY_COLLECTIONS_DEQUE (1)
 #define MICROPY_PY_COLLECTIONS_ORDEREDDICT (1)
 #define MICROPY_PY_COLLECTIONS_NAMEDTUPLE__ASDICT (1)
-#define MICROPY_PY_UJSON (0)
-#define MICROPY_PY_URE (0)
-#define MICROPY_PY_URE_MATCH_GROUPS (0)
-#define MICROPY_PY_URE_MATCH_SPAN_START_END (0)
-#define MICROPY_PY_URE_SUB (0)
+#define MICROPY_PY_UJSON (1)
+#define MICROPY_PY_URE (1)
+#define MICROPY_PY_URE_MATCH_GROUPS (1)
+#define MICROPY_PY_URE_MATCH_SPAN_START_END (1)
+#define MICROPY_PY_URE_SUB (1)
+#define MICROPY_PY_UCTYPES (1)
 
 // Unneccessary
 #define MICROPY_PY_MACHINE_I2C (0)

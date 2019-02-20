@@ -17,5 +17,5 @@ If there is any issue in licensing it will be corrected by request.
 External dependencies
 ---------------------
 
-[ps2toolchain](https://github.com/ps2dev/ps2toolchain)
-[ps2sdk](https://github.com/ps2dev/ps2sdk)
+[ps2toolchain](https://github.com/ps2homebrew/ps2toolchain)
+[ps2sdk](https://github.com/ps2homebrew/ps2sdk)

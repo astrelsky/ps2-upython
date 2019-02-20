@@ -16,6 +16,14 @@ except ImportError:
 except Exception as e:
     print(e)
 
+print("Import sys")
+try:
+    import sys
+    print(dir(sys))
+    print(sys.modules)
+except:
+    pass
+
 print("Now Creating a Class")
 
 class test(object):
@@ -31,7 +39,9 @@ class test(object):
         self.propitem = value
 
 print("Class made")
-
+print("Testing Floats")
+test = 3.1415
+print(test)
 print('Now entering an infinite loop so you can see the output')
 
 while True:

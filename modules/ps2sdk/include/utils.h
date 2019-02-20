@@ -33,14 +33,14 @@
 
 // Hiding the warnings since they are being used in macros
 
-STATIC __attribute__ ((unused)) const char *CUSTOM_TYPE_ERROR_MSG = " must be a(n) \n";
-STATIC __attribute__ ((unused)) const char *FUNCTION_TYPE_ERROR_MSG = " must be the NAME of a defined function\n";
-STATIC __attribute__ ((unused)) const char *INT_TYPE_ERROR_MSG = " must be an integer\n";
-STATIC __attribute__ ((unused)) const char *IO_TYPE_ERROR_MSG = " must be an io object\n";
-STATIC __attribute__ ((unused)) const char *LIST_TYPE_ERROR_MSG = " must be a list\n";
+STATIC __attribute__((used)) const char *CUSTOM_TYPE_ERROR_MSG = " must be a(n) \n";
+STATIC __attribute__ ((used)) const char *FUNCTION_TYPE_ERROR_MSG = " must be the NAME of a defined function\n";
+STATIC __attribute__ ((used)) const char *INT_TYPE_ERROR_MSG = " must be an integer\n";
+STATIC __attribute__ ((used)) const char *IO_TYPE_ERROR_MSG = " must be an io object\n";
+STATIC __attribute__ ((used)) const char *LIST_TYPE_ERROR_MSG = " must be a list\n";
 
 // This one is a bit silly
-STATIC __attribute__ ((unused)) const char *OBJECT_STRING = " object\n";
+STATIC __attribute__ ((used)) const char *OBJECT_STRING = " object\n";
 
 
 #define CUSTOM_TYPE_CHECK(name, value, type_name, type_address) ({\

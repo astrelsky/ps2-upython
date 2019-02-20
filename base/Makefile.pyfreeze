@@ -3,7 +3,7 @@ EE_OBJS = _frozen_mpy.o
 EE_C = _frozen_mpy.c
 EE_INCS = -I$(PS2SDK)/ports/include/micropython
 EE_CFLAGS = -L$(PS2SDK)/ports/lib -D__DEBUG
-EE_LIBS = -lmicropython -lahx -laudsrv
+EE_LIBS = -lmicropython -lahx -laudsrv -lc -lm -lg
 
 TEST_BIN = firmware.elf
 TEST_OBJS = build/_frozen_mpy.o
@@ -20,10 +20,10 @@ clean:
 	rm -f *.o *.elf
 	
 $(EE_C): $(PY_BYTECODE) $(PS2SDK)/ports/include/micropython/genhdr/qstrdefs.generated.h
-	python mpy-tool.py -f -q $(PS2SDK)/ports/include/micropython/genhdr/qstrdefs.preprocessed.h -mlongint-impl=none $< > $@
+	python mpy-tool.py -f -q $(PS2SDK)/ports/include/micropython/genhdr/qstrdefs.preprocessed.h $< > $@
 
 build/_frozen_mpy.c: frozentest.mpy build/genhdr/qstrdefs.generated.h
-	../micropython/tools/mpy-tool.py -f -q build/genhdr/qstrdefs.preprocessed.h -mlongint-impl=none $< > $@
+	../micropython/tools/mpy-tool.py -f -q build/genhdr/qstrdefs.preprocessed.h $< > $@
 
 include $(PS2SDK)/samples/Makefile.pref
 include $(PS2SDK)/samples/Makefile.eeglobal
