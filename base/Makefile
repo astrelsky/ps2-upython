@@ -46,7 +46,8 @@ SRC_C = \
 MODULE_C = \
 	$(MODULE_SDK)/src/rpc/ahx.c \
 	$(MODULE_SDK)/src/rpc/audsrv.c \
-	$(MODULE_SDK)/src/rpc/rpc.c
+	$(MODULE_SDK)/src/rpc/rpc.c \
+	file.c
 
 OBJ = $(PY_CORE_O) $(addprefix $(BUILD)/, $(SRC_C:.c=.o))
 OBJ += $(addprefix $(BUILD)/, $(MODULE_C:.c=.o))

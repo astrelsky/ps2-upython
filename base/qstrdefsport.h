@@ -1,3 +1,25 @@
+// global
+Q(__del__)
+
+// fileio
+Q(FileIO)
+Q(TextIOWrapper)
+Q(file)
+Q(mode)
+Q(buffering)
+Q(encoding)
+Q(r)
+Q(fileno)
+Q(read)
+Q(readinto)
+Q(readline)
+Q(readlines)
+Q(write)
+Q(seek)
+Q(tell)
+Q(flush)
+Q(close)
+
 // AHX Class
 Q(AHX)
 Q(Boost)
@@ -7,7 +29,6 @@ Q(Pause)
 Q(Play)
 Q(SubSong)
 Q(ToggleOversampling)
-Q(__del__)
 
 Q(audsrv)
 Q(CdPos)

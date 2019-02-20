@@ -42,6 +42,13 @@ print("Class made")
 print("Testing Floats")
 test = 3.1415
 print(test)
+print("Attempting to write to a file")
+try:
+    with open('cdrom:\\SYSTEM.CNF', 'r') as testfile:
+        print("Opened Successfully")
+        print(testfile.readline())
+except Exception as e:
+    print(e)
 print('Now entering an infinite loop so you can see the output')
 
 while True:
