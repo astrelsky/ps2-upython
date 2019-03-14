@@ -2,9 +2,9 @@ PS2 Micropython Port
 =======================
 
 This is a PS2 port of [micropython](https://github.com/micropython/micropython).
-It is currently in the development stages and currently only basic functionality.
-The open-source ps2sdk libraries has not yet been implemented as a built-in
-module.
+It is currently in the development stages and only has basic functionality.
+The wrappers for the open-source ps2sdk libraries is still a work in
+progress.
 
 License
 ---------
