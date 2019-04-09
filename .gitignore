@@ -3,6 +3,7 @@
 *.a
 *.elf
 *.exe
+*.P
 
 # Build folder
 build/
